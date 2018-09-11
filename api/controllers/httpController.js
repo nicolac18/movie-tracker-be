@@ -19,6 +19,5 @@ exports.httpRequest = (data, options, success, error) => {
     });
   });
 
-  req.write(JSON.stringify(data));
   req.end();
 };

@@ -8,7 +8,7 @@ const Movie = new Schema({
     required: 'tmdb_id is required',
     unique: true,
   },
-  thumb: {
+  poster_path: {
     type: String,
   },
   library: {

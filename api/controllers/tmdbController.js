@@ -26,13 +26,21 @@ exports.getAtCinema = (req, res) => {
     method: 'GET',
     path: `/3/movie/now_playing?${querystring.stringify(query)}`,
     port: null,
-    headers: {},
+    headers: {
+      'Content-Type': 'application/json'
+    },
   };
 
   httpController.httpRequest(
     {}, options,
     (data) => {
-      const tmp = JSON.parse(data);
+      let tmp;
+      
+      try {
+        tmp = JSON.parse(data);
+      } catch (e) {
+        return res.error(e);
+      }
 
       const collection = tmp.results;
       const ids = collection.map(o => o.id);
@@ -48,12 +56,16 @@ exports.getAtCinema = (req, res) => {
 
           const result = collection.map((o) => {
             const movie = moviesMap[o.id];
+            o.tmdb_id = o.id;
 
             if (movie) {
+              o.id = movie._id;
               o.watched = movie.watched;
               o.wishlist = movie.wishlist;
               return o;
             }
+
+            delete o.id;
             return o;
           });
 
@@ -84,7 +96,13 @@ exports.getDetails = (req, res) => {
   httpController.httpRequest(
     {}, options,
     (data) => {
-      const collection = JSON.parse(data);
+      let collection;
+      
+      try {
+        collection = JSON.parse(data);
+      } catch (e) {
+        return res.error(e);
+      }
 
       Movie.find({ tmdb_id: req.params.id }, (error, movies) => {
         if (error) {
@@ -124,13 +142,21 @@ exports.getPopular = (req, res) => {
     method: 'GET',
     path: `/3/discover/movie?${querystring.stringify(query)}`,
     port: null,
-    headers: {},
+    headers: {
+      'Content-Type': 'application/json'
+    },
   };
 
   httpController.httpRequest(
     {}, options,
     (data) => {
-      const tmp = JSON.parse(data);
+      let tmp;
+      
+      try {
+        tmp = JSON.parse(data);
+      } catch (e) {
+        return res.error(e);
+      }
 
       const collection = tmp.results;
       const ids = collection.map(o => o.id);
@@ -146,12 +172,16 @@ exports.getPopular = (req, res) => {
 
           const result = collection.map((o) => {
             const movie = moviesMap[o.id];
+            o.tmdb_id = o.id;
 
             if (movie) {
+              o.id = movie._id;
               o.watched = movie.watched;
               o.wishlist = movie.wishlist;
               return o;
             }
+
+            delete o.id;
             return o;
           });
 

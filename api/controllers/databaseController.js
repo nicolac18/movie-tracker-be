@@ -3,13 +3,17 @@ const mongoose = require('mongoose');
 const Movie = mongoose.model('Movie');
 
 exports.create = (req, res) => {
-  const movie = new Movie(req.body);
+  const mov = new Movie(req.body);
 
-  movie.save((err, mov) => {
+  if (!mov.watched && !mov.wishlist) {
+    mov.wishlist = true;
+  }
+
+  mov.save((err, movie) => {
     if (err) {
-      res.send(err);
+      res.sendStatus(err);
     } else {
-      res.json(mov);
+      res.json(movie);
     }
   });
 };
@@ -19,9 +23,19 @@ exports.delete = (req, res) => {
 
   Movie.remove({ _id: id }, (err) => {
     if (err) {
-      res.send(err);
+      res.sendStatus(err);
     } else {
       res.json(id);
+    }
+  });
+};
+
+exports.deleteAll = (req, res) => {
+  Movie.remove({ }, (err) => {
+    if (err) {
+      res.sendStatus(err);
+    } else {
+      res.json('DELETE');
     }
   });
 };
@@ -29,8 +43,11 @@ exports.delete = (req, res) => {
 exports.read = (req, res) => {
   Movie.find({}, (error, movie) => {
     if (error) {
-      res.send(error);
+      res.sendStatus(error);
     } else {
+      movie.tmdb_id = movie.id;
+      movie.id = movie._id;
+
       res.json(movie);
     }
   });
@@ -39,19 +56,15 @@ exports.read = (req, res) => {
 exports.update = (req, res) => {
   const { id } = req.params;
 
-  Movie.findById(id, (error, movie) => {
+  req.body.updated_at = new Date();
+  Movie.findOneAndUpdate(id, req.body, { new: true }, (error, movie) => {
     if (error) {
-      res.send(error);
+      res.sendStatus(error);
     } else {
-      const tmp = Object.assign({}, movie, req.body);
+      movie.tmdb_id = movie.id;
+      movie.id = movie._id;
 
-      tmp.save((err, mov) => {
-        if (err) {
-          res.send(err);
-        } else {
-          res.json(mov);
-        }
-      });
+      res.json(movie);
     }
   });
 };
