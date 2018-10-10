@@ -12,6 +12,9 @@ module.exports = function movieRoute(app) {
 
   app.get('/collections/atcinema', tmdb.getAtCinema);
   app.get('/collections/popular', tmdb.getPopular);
+  // app.get('/collections/watchlist', movie.getMovies);
+
+  app.get('/discover/movies', tmdb.getMovies);
 
   app.route('/movies')
     .get(movie.getAll)
