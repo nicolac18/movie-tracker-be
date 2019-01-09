@@ -16,6 +16,8 @@ module.exports = function movieRoute(app) {
 
   app.get('/discover/movies', tmdb.getMovies);
 
+  app.get('/movies/search', tmdb.search);
+
   app.route('/movies')
     .get(movie.getAll)
     .delete(movieDatabase.deleteAll)

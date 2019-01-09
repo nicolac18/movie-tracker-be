@@ -7,7 +7,8 @@ exports.getAll = (req, res) => {
   Movie.find({ }, (error, movies) => {
     if (error) {
       res.error(error);
-    } else 
+    } else {
       res.json(movies);
+    }
   });
 };

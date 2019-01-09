@@ -227,7 +227,75 @@ exports.getPopular = (req, res) => {
       try {
         tmp = JSON.parse(data);
       } catch (e) {
-        return res.error(e);
+        res.status(500);
+        return res.json(e);
+      }
+
+      const collection = tmp.results;
+      const ids = collection.map(o => o.id);
+
+      Movie.find({ tmdb_id: { $in: ids } }, (error, movies) => {
+        if (error) {
+          res.error(error);
+        } else {
+          const moviesMap = movies.reduce((m, i) => {
+            m[i.tmdb_id] = i;
+            return m;
+          }, {});
+
+          const result = collection.map((o) => {
+            const movie = moviesMap[o.id];
+            o.tmdb_id = o.id;
+
+            if (movie) {
+              o.id = movie._id;
+              o.watched = movie.watched;
+              o.wishlist = movie.wishlist;
+              return o;
+            }
+
+            delete o.id;
+            return o;
+          });
+
+          res.json(result);
+        }
+      });
+    }, (error) => {
+      res.error(error);
+    },
+  );
+};
+
+exports.search = (req, res) => {
+  const query = {
+    api_key: process.env.API_KEY,
+    language: process.env.LANGUAGE,
+    region: process.env.REGION,
+
+    query: req.query.query,
+  };
+
+  const options = {
+    host: process.env.HOST_TMDB,
+    method: 'GET',
+    path: `/3/search/movie?${querystring.stringify(query)}`,
+    port: null,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  };
+
+  httpController.httpRequest(
+    {}, options,
+    (data) => {
+      let tmp;
+      
+      try {
+        tmp = JSON.parse(data);
+      } catch (e) {
+        res.status(500);
+        return res.json(e);
       }
 
       const collection = tmp.results;
