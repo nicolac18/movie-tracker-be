@@ -39,7 +39,7 @@ exports.getAtCinema = (req, res) => {
       try {
         tmp = JSON.parse(data);
       } catch (e) {
-        return res.error(e);
+        return res.status(500).send(e);
       }
 
       const collection = tmp.results;
@@ -47,7 +47,7 @@ exports.getAtCinema = (req, res) => {
 
       Movie.find({ tmdb_id: { $in: ids } }, (error, movies) => {
         if (error) {
-          res.error(error);
+          res.status(500).send(error);
         } else {
           const moviesMap = movies.reduce((m, i) => {
             m[i.tmdb_id] = i;
@@ -73,7 +73,7 @@ exports.getAtCinema = (req, res) => {
         }
       });
     }, (error) => {
-      res.error(error);
+      res.status(500).send(error);
     },
   );
 };
@@ -101,12 +101,12 @@ exports.getDetails = (req, res) => {
       try {
         collection = JSON.parse(data);
       } catch (e) {
-        return res.error(e);
+        return res.status(500).send(e);
       }
 
       Movie.find({ tmdb_id: req.params.id }, (error, movies) => {
         if (error) {
-          res.error(error);
+          res.status(500).send(error);
         } else if (movies.length === 0) {
           collection.watched = null;
           collection.wishlist = false;
@@ -120,7 +120,7 @@ exports.getDetails = (req, res) => {
         }
       });
     }, (error) => {
-      res.error(error);
+      res.status(500).send(error);
     },
   );
 };
@@ -156,7 +156,7 @@ exports.getMovies = (req, res) => {
       try {
         tmp = JSON.parse(data);
       } catch (e) {
-        return res.error(e);
+        return res.status(500).send(e);
       }
 
       const collection = tmp.results;
@@ -165,7 +165,7 @@ exports.getMovies = (req, res) => {
 
       Movie.find({ tmdb_id: { $in: ids } }, (error, movies) => {
         if (error) {
-          res.error(error);
+          res.status(500).send(error);
         } else {
           const moviesMap = movies.reduce((m, i) => {
             m[i.tmdb_id] = i;
@@ -192,7 +192,7 @@ exports.getMovies = (req, res) => {
         }
       });
     }, (error) => {
-      res.error(error);
+      res.status(500).send(error);
     },
   );
 };
@@ -236,7 +236,7 @@ exports.getPopular = (req, res) => {
 
       Movie.find({ tmdb_id: { $in: ids } }, (error, movies) => {
         if (error) {
-          res.error(error);
+          res.status(500).send(error);
         } else {
           const moviesMap = movies.reduce((m, i) => {
             m[i.tmdb_id] = i;
@@ -262,7 +262,7 @@ exports.getPopular = (req, res) => {
         }
       });
     }, (error) => {
-      res.error(error);
+      res.status(500).send(error);
     },
   );
 };
@@ -303,7 +303,7 @@ exports.search = (req, res) => {
 
       Movie.find({ tmdb_id: { $in: ids } }, (error, movies) => {
         if (error) {
-          res.error(error);
+          res.status(500).send(error);
         } else {
           const moviesMap = movies.reduce((m, i) => {
             m[i.tmdb_id] = i;
@@ -329,7 +329,7 @@ exports.search = (req, res) => {
         }
       });
     }, (error) => {
-      res.error(error);
+      res.status(500).send(error);
     },
   );
 };
