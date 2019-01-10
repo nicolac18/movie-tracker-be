@@ -32,7 +32,10 @@ exports.getAtCinema = (req, res) => {
   };
 
   httpController.httpRequest(
-    {}, options,
+    options,
+    (error) => {
+      res.status(500).send(error);
+    },
     (data) => {
       let tmp;
       
@@ -72,8 +75,6 @@ exports.getAtCinema = (req, res) => {
           res.json(result);
         }
       });
-    }, (error) => {
-      res.status(500).send(error);
     },
   );
 };
@@ -94,7 +95,10 @@ exports.getDetails = (req, res) => {
   };
 
   httpController.httpRequest(
-    {}, options,
+    options,
+    (error) => {
+      res.status(500).send(error);
+    },
     (data) => {
       let collection;
       
@@ -119,8 +123,6 @@ exports.getDetails = (req, res) => {
           res.json(collection);
         }
       });
-    }, (error) => {
-      res.status(500).send(error);
     },
   );
 };
@@ -149,7 +151,10 @@ exports.getMovies = (req, res) => {
   };
 
   httpController.httpRequest(
-    {}, options,
+    options,
+    (error) => {
+      res.status(500).send(error);
+    },
     (data) => {
       let tmp;
       
@@ -191,8 +196,6 @@ exports.getMovies = (req, res) => {
           res.json(result);
         }
       });
-    }, (error) => {
-      res.status(500).send(error);
     },
   );
 };
@@ -220,7 +223,10 @@ exports.getPopular = (req, res) => {
   };
 
   httpController.httpRequest(
-    {}, options,
+    options,
+    (error) => {
+      res.status(500).send(error);
+    },
     (data) => {
       let tmp;
       
@@ -261,8 +267,6 @@ exports.getPopular = (req, res) => {
           res.json(result);
         }
       });
-    }, (error) => {
-      res.status(500).send(error);
     },
   );
 };
@@ -287,7 +291,10 @@ exports.search = (req, res) => {
   };
 
   httpController.httpRequest(
-    {}, options,
+    options,
+    (error) => {
+      res.status(500).send(error);
+    },
     (data) => {
       let tmp;
       
@@ -328,8 +335,6 @@ exports.search = (req, res) => {
           res.json(result);
         }
       });
-    }, (error) => {
-      res.status(500).send(error);
     },
   );
 };

@@ -1,4 +1,3 @@
-const https = require('https');
 const mongoose = require('mongoose');
 
 const Movie = mongoose.model('Movie');

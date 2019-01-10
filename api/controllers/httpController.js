@@ -1,6 +1,6 @@
 const https = require('https');
 
-exports.httpRequest = (data, options, success, error) => {
+exports.httpRequest = (options, error, success) => {
   const req = https.request(options, (res) => {
     const chunks = [];
 

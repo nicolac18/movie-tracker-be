@@ -5,7 +5,11 @@ const Movie = mongoose.model('Movie');
 exports.create = (req, res) => {
   const mov = new Movie(req.body);
 
+  mov.created_at = new Date();
+
   if (!mov.watched && !mov.wishlist) {
+    mov.wishlist = true;
+  } else if (mov.watched && !mov.wishlist) {
     mov.wishlist = true;
   }
 
@@ -57,7 +61,7 @@ exports.update = (req, res) => {
   const { id } = req.params;
 
   req.body.updated_at = new Date();
-  Movie.findOneAndUpdate(id, req.body, { new: true }, (error, movie) => {
+  Movie.findOneAndUpdate({ _id: id }, req.body, { new: true }, (error, movie) => {
     if (error) {
       res.sendStatus(error);
     } else {
