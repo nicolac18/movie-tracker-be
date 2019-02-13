@@ -45,7 +45,7 @@ exports.deleteAll = (req, res) => {
 };
 
 exports.read = (req, res) => {
-  Movie.find({}, (error, movie) => {
+  Movie.find({ }, (error, movie) => {
     if (error) {
       res.sendStatus(error);
     } else {
