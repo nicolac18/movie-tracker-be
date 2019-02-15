@@ -9,6 +9,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const Movie = require('./api/models/movieModel'); // eslint-disable-line
+const User = require('./api/models/userModel'); // eslint-disable-line
+
 const Routes = require('./api/routes/routes');
 
 dotenv.config();
