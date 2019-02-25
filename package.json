@@ -1,0 +1,25 @@
+{
+  "name": "movie-tracker-be",
+  "version": "0.0.1",
+  "description": "RESTful Movie Tracker Api",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "start-db": "mongod --dbpath ./db"
+  },
+  "author": "Nicola Carraro",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^4.17.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "nodemon": "^1.14.12"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "dotenv": "^5.0.0",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.0.5"
+  }
+}
