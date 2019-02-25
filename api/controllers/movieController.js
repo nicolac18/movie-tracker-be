@@ -6,8 +6,8 @@ const Movie = mongoose.model('Movie');
 exports.getAll = (req, res) => {
   const page = req.query.page || 1;
 
-  const count = (callback) => Movie.count({ }, callback);
-  const query = (callback) => Movie.find({ }, callback).lean().limit(20).skip((page - 1) * 20);
+  const count = (callback) => Movie.count({}, callback);
+  const query = (callback) => Movie.find({}, callback).lean().limit(20).skip((page - 1) * 20);
 
   async.parallel([count, query], (err, results) => {
     if (err) {
@@ -17,7 +17,7 @@ exports.getAll = (req, res) => {
         movie.id = movie._id;
       })
 
-      res.setHeader('Total-Pages', results[0]);
+      res.setHeader('Total-Results', results[0]);
       res.json(results[1]);
     }
   });

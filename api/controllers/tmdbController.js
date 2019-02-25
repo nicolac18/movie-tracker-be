@@ -38,7 +38,7 @@ exports.getAtCinema = (req, res) => {
     },
     (data) => {
       let tmp;
-      
+
       try {
         tmp = JSON.parse(data);
       } catch (e) {
@@ -101,7 +101,7 @@ exports.getDetails = (req, res) => {
     },
     (data) => {
       let collection;
-      
+
       try {
         collection = JSON.parse(data);
       } catch (e) {
@@ -134,10 +134,11 @@ exports.getMovies = (req, res) => {
     region: process.env.REGION,
     'release_date.lte': req.query.release_date,
     page: req.query.page || 1,
+    sort_by: req.query.sort_by || 'release_date.desc',
+    year: req.query.year,
 
     include_adult: false,
     include_video: false,
-    sort_by: 'release_date.desc',
   };
 
   const options = {
@@ -157,7 +158,7 @@ exports.getMovies = (req, res) => {
     },
     (data) => {
       let tmp;
-      
+
       try {
         tmp = JSON.parse(data);
       } catch (e) {
@@ -165,7 +166,7 @@ exports.getMovies = (req, res) => {
       }
 
       const collection = tmp.results;
-      const totalPages = tmp.total_pages;
+      const totalResults = tmp.total_results;
       const ids = collection.map(o => o.id);
 
       Movie.find({ tmdb_id: { $in: ids } }, (error, movies) => {
@@ -192,7 +193,7 @@ exports.getMovies = (req, res) => {
             return o;
           });
 
-          res.setHeader('Total-Pages', totalPages);
+          res.setHeader('Total-Results', totalResults);
           res.json(result);
         }
       });
@@ -229,7 +230,7 @@ exports.getPopular = (req, res) => {
     },
     (data) => {
       let tmp;
-      
+
       try {
         tmp = JSON.parse(data);
       } catch (e) {
@@ -297,7 +298,7 @@ exports.search = (req, res) => {
     },
     (data) => {
       let tmp;
-      
+
       try {
         tmp = JSON.parse(data);
       } catch (e) {
