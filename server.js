@@ -17,7 +17,7 @@ dotenv.config();
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/MovieTrackerDB');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/MovieTrackerDB');
 
 app.use(parser.json());
 app.use(parser.urlencoded({ extended: true }));

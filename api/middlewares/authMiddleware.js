@@ -1,7 +1,7 @@
 var jwt = require('jsonwebtoken');
 
 exports.checkToken = (req, res, next) => {
-  const token = req.headers['authorization'].replace('Bearer ', '');
+  const token = req.headers['authorization'] ? req.headers['authorization'].replace('Bearer ', '') : null;
 
   if (!token) {
     res.status(403).send({
